@@ -1,0 +1,24 @@
+.center-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img-logo {
+  margin: 0 auto;
+  width: 60vw;
+  background-size: cover;
+  border-radius: 10px;
+}
+.center-text {
+  float: right;
+}
+.pad-logo {
+  padding: 1rem;
+}
+
+@media screen and (min-width: 1200px) {
+  .img-logo {
+    max-width: 20vw;
+    margin-inline: 0 auto;
+  }
+}

@@ -1,0 +1,64 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear">
+      <ion-back-button [defaultHref]="['home']"></ion-back-button>
+    </ion-button>
+    <ion-title>Les détails des transactions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-padding">
+        <ion-card>
+          <ion-list>
+            <ion-item>
+              <ion-label>Envoyer a</ion-label>
+              <ion-badge color="primary"
+                >{{detailTransaction.fullName}}</ion-badge
+              >
+            </ion-item>
+            <ion-item>
+              <ion-label>L'heur</ion-label>
+              <ion-badge color="secondary"
+                >{{detailTransaction.date}}</ion-badge
+              >
+            </ion-item>
+            <ion-item>
+              <ion-label>Le numéro de téléphone</ion-label>
+              <ion-badge color="tertiary">{{detailTransaction.tel}}</ion-badge>
+            </ion-item>
+            <ion-item>
+              <ion-label>Le montant de la transaction</ion-label>
+              <ion-badge color="tertiary"
+                >{{detailTransaction.price}} FCFA</ion-badge
+              >
+            </ion-item>
+            <ion-item>
+              <ion-label>Staus</ion-label>
+              <ion-badge color="success">OK</ion-badge>
+            </ion-item>
+            <ion-item>
+              <ion-label>L'identification de la transaction </ion-label>
+              <ion-badge color="tertiary"
+                >{{detailTransaction.id}}{{detailTransaction.date}}</ion-badge
+              >
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label>Partenaire SamaKhaliss </ion-label>
+              <ion-badge color="">
+                <ion-thumbnail>
+                  <img
+                    [src]="detailTransaction.imgurl"
+                    alt="Votre partenaire SamaKhaliss"
+                  />
+                </ion-thumbnail>
+              </ion-badge>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

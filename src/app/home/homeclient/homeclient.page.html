@@ -1,0 +1,133 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <div class="center-header">
+      <div class="">
+        <ion-buttons slot="start">
+          <ion-icon
+            class="ion-padding"
+            size="large"
+            (click)="openMenu()"
+            name="settings-outline"
+            slot="icon-only"
+          ></ion-icon>
+        </ion-buttons>
+      </div>
+
+      <div class="center-profile">
+        <img id="img-profile" alt="user img" src="./assets/images/user-2.jpg" />
+        <div class="">
+          <p>
+            <span id="phone">Bienvenu</span><br />
+            <span id="name">Mouhamed SEYE</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <ion-card color="primary ion-text-center">
+      <ion-card-header>
+        <ion-card-title name="solde">300000 FCFA</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2">
+        <div class="ion-padding ion-text-center">
+          <ion-fab slot="" vertical="" horizontal="" class="center-icons">
+            <div class="">
+              <ion-fab-button>
+                <ion-icon name="arrow-up-circle-outline"></ion-icon>
+              </ion-fab-button>
+              <div class="titre-icon">Dépôt</div>
+            </div>
+
+            <div class="">
+              <ion-fab-button>
+                <ion-icon name="arrow-down-circle-outline"></ion-icon>
+              </ion-fab-button>
+              <div class="titre-icon">Retrait</div>
+            </div>
+            <div class="">
+              <ion-fab-button
+                [routerLink]="['/','home','tabs','sendusermoney']"
+              >
+                <ion-icon name="send-outline"></ion-icon>
+              </ion-fab-button>
+              <div class="titre-icon">Transfert</div>
+            </div>
+
+            <div class="">
+              <ion-fab-button [routerLink]="['/','home','tabs','payfacture']">
+                <ion-icon name="pricetags-outline"></ion-icon>
+              </ion-fab-button>
+              <div class="titre-icon">Paiement</div>
+            </div>
+            <div class="">
+              <ion-fab-button [routerLink]="['/','home','tabs','paycredit']">
+                <ion-icon name="card-outline"></ion-icon>
+              </ion-fab-button>
+              <div class="titre-icon">credit</div>
+            </div>
+          </ion-fab>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col
+        size="12"
+        size-sm="8"
+        offset-sm="2"
+        class="ion-padding ion-margin-top"
+      >
+        <ion-list>
+          <ion-list-header color="primary" class="transactions ion-margin-top">
+            <ion-label>Transactions</ion-label>
+          </ion-list-header>
+          <ion-item-group>
+            <ion-item
+              lines="full"
+              *ngFor="let payuser of loadHomePayments"
+              [routerLink]="['/', 'home', 'tabs','homeclient',payuser.id]"
+              detail
+            >
+              <ion-thumbnail slot="start" class="ion-text-center">
+                <img [src]="payuser?.imgurl" />
+              </ion-thumbnail>
+              <ion-label>
+                <ion-text> {{payuser?.fullName}} </ion-text>
+                <p>
+                  <ion-text>{{payuser?.date | date: "MMM d, y"}} </ion-text>
+                </p>
+              </ion-label>
+              <ion-text>
+                {{payuser?.price >= 0 ? 'FCFA ' + payuser?.price: '-FCFA ' + (
+                payuser?.price * (-1))}}
+              </ion-text>
+            </ion-item>
+          </ion-item-group>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!-- <ion-item-group>
+            <ion-item lines="full" *ngFor="let transaction of  transactions">
+              <ion-thumbnail slot="start" class="ion-text-center">
+                <img src="assets/images/sk.jpeg" />
+              </ion-thumbnail>
+              <ion-label>
+                <ion-text> {{transaction?.to}} </ion-text>
+                <p>
+                  <ion-text>{{transaction?.date | date: "MMM d, y"}} </ion-text>
+                </p>
+              </ion-label>
+              <ion-text>
+                {{transaction?.amount >= 0 ? 'FCFA ' + transaction?.amount:
+                '-FCFA ' + ( transaction?.amount * (-1))}}
+              </ion-text>
+            </ion-item>
+          </ion-item-group> -->

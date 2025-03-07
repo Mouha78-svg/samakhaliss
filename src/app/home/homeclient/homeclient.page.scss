@@ -1,0 +1,51 @@
+.center-header {
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  padding: 2rem;
+  gap: 2rem;
+}
+.center-profile {
+  display: flex;
+  gap: 1.5rem;
+
+  #img-profile {
+    max-width: 25%;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 4rem;
+    object-fit: cover;
+    // height: 30%;
+  }
+
+  #name,
+  #phone {
+    padding: 0.1em;
+    font-size: 1rem;
+    // margin-top: 0.5rem;
+  }
+  .solde {
+    font-size: 2rem;
+    // letter-spacing: 4px;
+  }
+}
+
+.center-all-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-icons {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4em;
+}
+.titre-icon {
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+ion-list.transactions {
+  border-radius: 8vh 8vh 0 0;
+}
