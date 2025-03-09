@@ -1,0 +1,124 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear">
+      <ion-back-button [defaultHref]="['home']"></ion-back-button>
+    </ion-button>
+    <ion-title>Changez votre mot de passe</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-grid class="ion-text-center">
+      <ion-row>
+        <ion-col class="center-text">
+          <ion-label>
+            <h1>Modification de mot passe</h1>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3" class="ion-text-center">
+          <ion-list>
+            <ion-item
+              *ngIf="changepwdCtrl.value !== changepwd2Ctrl.value"
+              lines="none"
+            >
+              <p>Vos deux mot de passe ne correspondent pas</p>
+            </ion-item>
+            <ion-item>
+              <ion-icon
+                (click)="changeType()"
+                color="primary"
+                slot="end"
+                [name]="type ? 'eye-outline' : 'eye-off-outline' "
+              ></ion-icon>
+              <ion-input
+                label="Ancien mot de passe"
+                [type]="type ? 'password' : 'text' "
+                labelPlacement="floating"
+                placeholder="Ansien mot de passe"
+                ngModel
+                name="ancienpwd"
+                required
+                maxlength="4"
+                #ancienpwdCtrl="ngModel"
+              ></ion-input>
+            </ion-item>
+            <ion-item
+              *ngIf="!ancienpwdCtrl.valid && ancienpwdCtrl.touched"
+              lines="none"
+            >
+              <p>
+                Veillez-entrez votre ancien mot de passe au moins 4 caractere
+              </p>
+            </ion-item>
+            <ion-item>
+              <ion-icon
+                (click)="changeType()"
+                color="primary"
+                slot="end"
+                [name]="type ? 'eye-outline' : 'eye-off-outline' "
+              ></ion-icon>
+              <ion-input
+                label="Nouveau mot de passe"
+                [type]="type ? 'password' : 'text' "
+                labelPlacement="floating"
+                placeholder="Nouveau mot de passe"
+                ngModel
+                name="changepwd"
+                required
+                maxlength="4"
+                #changepwdCtrl="ngModel"
+              ></ion-input>
+            </ion-item>
+            <ion-item
+              *ngIf="!changepwdCtrl.valid && changepwdCtrl.touched"
+              lines="none"
+            >
+              <p>Veillez-entrez votre nouveau mot de passe</p>
+            </ion-item>
+            <ion-item>
+              <ion-icon
+                (click)="changeType()"
+                color="primary"
+                slot="end"
+                [name]="type ? 'eye-outline' : 'eye-off-outline' "
+              ></ion-icon>
+              <ion-input
+                label="Confirmer mot de passe"
+                [type]="type ? 'password' : 'text' "
+                labelPlacement="floating"
+                placeholder="Changer mot de passe"
+                ngModel
+                name="changepwd2"
+                required
+                maxlength="4"
+                #changepwd2Ctrl="ngModel"
+              ></ion-input>
+            </ion-item>
+            <ion-item
+              *ngIf="!changepwd2Ctrl.valid && changepwd2Ctrl.touched"
+              lines="none"
+            >
+              <p>Veillez confirmer votre nouveau mot de passe</p>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3" class="center">
+          <ion-button
+            (click)="onChangePWD()"
+            [disabled]="!f.valid"
+            type="submit"
+            >Valider</ion-button
+          >
+          <ion-button (click)="cancel()">Annuler</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

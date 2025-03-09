@@ -65,12 +65,8 @@
           <ion-item>
             <ion-label>
               <ion-datetime
-                [preferWheel]="true"
-                display-format="MMM DD YYYY"
-                piker-format="YY MMM DD"
-                [max]="2025-03-04"
-                [ngModel]=""
-                required
+                min="2019-01-01"
+                max="2025-12-31"
                 formControlName="date"
               />
             </ion-label>
@@ -83,7 +79,7 @@
             color="primary"
             expand="block"
             (click)="onCreatePayment()"
-            [disabled]="!form.valid"
+            [disabled]="!form.valid || !dateNow()"
           >
             Valider</ion-button
           >

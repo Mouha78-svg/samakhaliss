@@ -5,7 +5,7 @@
         <ion-header>
           <ion-toolbar>
             <ion-thumbnail>
-              <ion-img src="./assets/images/sk.jpeg"></ion-img>
+              <img src="./assets/images/sk.jpeg" />
             </ion-thumbnail>
           </ion-toolbar>
         </ion-header>
@@ -14,16 +14,13 @@
     <ion-content class="ion-padding">
       <ion-list class="center-menu-list">
         <ion-menu-toggle>
-          <ion-item
-            [routerLink]="['/espaceclient/tabs/homeclient']"
-            lines="none"
-          >
+          <ion-item [routerLink]="['/home/tabs/homeclient']" lines="none">
             <ion-icon color="primary" name="home" slot="start"></ion-icon>
             <ion-label>Accueil</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>
-          <ion-item [routerLink]="['/', '', '']" lines="none">
+          <ion-item [routerLink]="['/home/tabs/changepw']" lines="none">
             <ion-icon
               color="primary"
               name="settings-outline"
@@ -42,20 +39,16 @@
             <ion-label>confidentialiter</ion-label>
           </ion-item>
         </ion-menu-toggle>
-        <ion-item lines="none">
-          <ion-menu-toggle>
-            <ion-button fill="clear" id="present-alert"
-              >Se Déconnecter</ion-button
-            >
-            <ion-alert
-              trigger="present-alert"
-              class="custom-alert"
-              header="Êtes-vous sûr de vouloir vous déconnecter ? "
-              [buttons]=""
-            >
-            </ion-alert>
-          </ion-menu-toggle>
-        </ion-item>
+        <ion-menu-toggle>
+          <ion-item lines="none" (click)="onLogOut()">
+            <ion-icon
+              color="primary"
+              name="log-out-outline"
+              slot="start"
+            ></ion-icon>
+            <ion-label>Se Déconnecter</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
         <ion-menu-toggle>
           <ion-item lines="none">
             <ion-label color="primary">Version 1.0</ion-label>

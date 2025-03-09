@@ -4,7 +4,8 @@ export class Home {
     public fullName: string,
     public tel: number,
     public price: number,
-    public date: string,
-    public imgurl: string
+    public date: Date,
+    public imgurl: string,
+    public userId: string
   ) {}
 }

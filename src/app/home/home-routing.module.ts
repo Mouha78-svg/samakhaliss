@@ -63,6 +63,18 @@ const routes: Routes = [
         ],
       },
       {
+        path: 'changepw',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./changepw/changepw.module').then(
+                (m) => m.ChangepwPageModule
+              ),
+          },
+        ],
+      },
+      {
         path: '',
         redirectTo: '/home/tabs/homeclient',
         pathMatch: 'full',

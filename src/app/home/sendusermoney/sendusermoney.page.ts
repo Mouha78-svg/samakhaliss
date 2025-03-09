@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { HomeService } from '../home.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sendusermoney',
   templateUrl: './sendusermoney.page.html',
@@ -8,9 +10,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class SendusermoneyPage implements OnInit {
   currentDate;
-  form: FormGroup;
-  constructor() {
-    this.currentDate = new Date().toISOString();
+  form!: FormGroup;
+
+  constructor(private homeservice: HomeService, private router: Router) {}
+  // this.currentDate = new Date().toISOString();
+
+  dateNow() {
+    const newDate = new Date(this.form.value['date']);
+    // console.log(newDate);
+
+    return newDate;
   }
 
   ngOnInit() {
@@ -35,7 +44,17 @@ export class SendusermoneyPage implements OnInit {
   }
 
   onCreatePayment() {
+    if (!this.form.valid) {
+      return;
+    }
+    this.homeservice.addPay(
+      this.form.value.fullName,
+      this.form.value.tel,
+      +this.form.value.price,
+      new Date(this.form.value.date)
+    );
+    this.form.reset();
+    this.router.navigate(['/home/tabs/homeclient']);
     console.log(this.form);
   }
-  onPay() {}
 }

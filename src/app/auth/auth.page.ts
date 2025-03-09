@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController, NavController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -14,9 +15,10 @@ export class AuthPage implements OnInit {
   isLogin = true;
   type: boolean = true;
   constructor(
-    private route: Router,
     private loadingCtrl: LoadingController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -25,8 +27,16 @@ export class AuthPage implements OnInit {
     this.type = !this.type;
   }
 
+  // onLogIn() {
+  //   this.authService.logIn();
+  //   this.router.navigateByUrl('/home/tabs/homeclient');
+  // }
+  // onLogOut() {
+  //   this.authService.logOut();
+  // }
+
   onLonIn() {
-    // this.authService.login();
+    this.authService.logIn();
     this.isLoading = true;
     this.loadingCtrl
       .create({
