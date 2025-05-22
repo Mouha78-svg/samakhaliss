@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { HomeService } from '../home.service';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-paycredit',
@@ -7,7 +10,40 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
 })
 export class PaycreditPage implements OnInit {
-  constructor() {}
+  @ViewChild('f', { static: true }) form: NgForm;
 
-  ngOnInit() {}
+  currentDate;
+  typeDepot;
+  constructor(private homeservice: HomeService, private router: Router) {}
+
+  ngOnInit() {
+    this.currentDate = new Date().toISOString();
+    this.typeDepot = 'Crédit';
+  }
+  onValidedSubmit() {
+    if (!this.form.valid) {
+      return;
+    }
+  }
+  onValidatedDepot() {
+    if (!this.form.valid) {
+      return;
+    }
+
+    this.homeservice.addPayement(
+      this.form.value['depot'],
+      this.form.value['tel'],
+      +this.form.value['amount'],
+      new Date(this.form.value['newdate'])
+    );
+    this.form.reset();
+    this.router.navigate(['/home/tabs/homeclient']);
+
+    console.log(
+      this.form.value['depot'],
+      this.form.value['tel'],
+      this.form.value['amount'],
+      this.form.value['newdate']
+    );
+  }
 }

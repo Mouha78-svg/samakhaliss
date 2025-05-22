@@ -1,5 +1,7 @@
 {
   "name": "samakhaliss",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

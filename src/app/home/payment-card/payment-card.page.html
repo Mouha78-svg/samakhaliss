@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear">
+      <ion-back-button [defaultHref]="['home']"></ion-back-button>
+    </ion-button>
+    <ion-title>payment-card</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2">
+        <div class="card-container">
+          <div class="card visa">
+            <div class="card-front">
+              <div class="card-chip"></div>
+              <div class="card-logo-container">
+                <img
+                  src="assets/images/visa.png"
+                  alt="Visa"
+                  class="card-logo"
+                />
+              </div>
+              <div class="card-number">{{ cardNumber }}</div>
+              <div class="card-holder-info">
+                <div class="card-label">Prenom NOM</div>
+                <div class="card-value">{{ cardHolderName | uppercase }}</div>
+              </div>
+              <div class="card-expiry-info">
+                <div class="card-label">Expires</div>
+                <div class="card-value">{{ expiryMonth }}/{{ expiryYear }}</div>
+              </div>
+            </div>
+            <div class="card-back">
+              <div class="magnetic-stripe"></div>
+              <div class="cvv-section">
+                <div class="cvv-label">CVV</div>
+                <div class="cvv-value">{{ cvv }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

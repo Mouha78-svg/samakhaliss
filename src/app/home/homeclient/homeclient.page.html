@@ -14,7 +14,14 @@
       </div>
 
       <div class="center-profile">
-        <img id="img-profile" alt="user img" src="./assets/images/user-2.jpg" />
+        <div class="ion-text-center">
+          <ion-avatar>
+            <img alt="user img" src="/assets/images/user-2.jpg" />
+            <ion-button class="btn-size" (click)="getPhoto()">
+              <ion-icon name="add-sharp"></ion-icon>
+            </ion-button>
+          </ion-avatar>
+        </div>
         <div class="">
           <p>
             <span id="phone">Bienvenu</span><br />
@@ -23,11 +30,21 @@
         </div>
       </div>
     </div>
-    <ion-card color="primary ion-text-center">
+    <ion-card class="ion-text-center">
       <ion-card-header>
-        <ion-card-title name="solde">300000 FCFA</ion-card-title>
+        <ion-card-title>Solde Actuel</ion-card-title>
       </ion-card-header>
+      <ion-card-content>
+        <h1 class="ion-text-center" [ngClass]="{'positive-balance': 0}">
+          {{ soldePrincipal | currency:'CFA':'symbol':'1.0-0' }}
+        </h1>
+      </ion-card-content>
     </ion-card>
+    <!-- <ion-card color="primary ion-text-center">
+      <ion-card-header>
+        <ion-card-title name="solde">0 FCFA</ion-card-title>
+      </ion-card-header>
+    </ion-card> -->
   </ion-toolbar>
 </ion-header>
 
@@ -37,19 +54,6 @@
       <ion-col size="12" size-sm="8" offset-sm="2">
         <div class="ion-padding ion-text-center">
           <ion-fab slot="" vertical="" horizontal="" class="center-icons">
-            <div class="">
-              <ion-fab-button>
-                <ion-icon name="arrow-up-circle-outline"></ion-icon>
-              </ion-fab-button>
-              <div class="titre-icon">Dépôt</div>
-            </div>
-
-            <div class="">
-              <ion-fab-button>
-                <ion-icon name="arrow-down-circle-outline"></ion-icon>
-              </ion-fab-button>
-              <div class="titre-icon">Retrait</div>
-            </div>
             <div class="">
               <ion-fab-button
                 [routerLink]="['/','home','tabs','sendusermoney']"
@@ -66,10 +70,22 @@
               <div class="titre-icon">Paiement</div>
             </div>
             <div class="">
-              <ion-fab-button [routerLink]="['/','home','tabs','paycredit']">
+              <ion-fab-button [routerLink]="['/','home','tabs','payment-card']">
                 <ion-icon name="card-outline"></ion-icon>
               </ion-fab-button>
-              <div class="titre-icon">credit</div>
+              <div class="titre-icon">carte</div>
+            </div>
+            <div class="">
+              <ion-fab-button [routerLink]="['/','home','tabs','depot']">
+                <ion-icon name="wallet-outline"></ion-icon>
+              </ion-fab-button>
+              <div class="titre-icon">Dépot</div>
+            </div>
+            <div class="">
+              <ion-fab-button [routerLink]="['/','home','tabs','retrait']">
+                <ion-icon name="cash-outline"></ion-icon>
+              </ion-fab-button>
+              <div class="titre-icon">Retrait</div>
             </div>
           </ion-fab>
         </div>
@@ -83,34 +99,107 @@
         class="ion-padding ion-margin-top"
       >
         <ion-list>
-          <ion-list-header color="primary" class="transactions ion-margin-top">
+          <!-- <ion-list-header color="primary" class="transactions ion-margin-top">
             <ion-label>Transactions</ion-label>
-          </ion-list-header>
-          <ion-item-group>
-            <ion-item
-              lines="full"
+          </ion-list-header> -->
+          <ion-item-group class="transactions ion-margin-top">
+            <ion-item-sliding
               *ngFor="let payuser of loadHomePayments"
               [routerLink]="['/', 'home', 'tabs','homeclient',payuser.id]"
-              detail
+              #slidingPay
             >
-              <ion-thumbnail slot="start" class="ion-text-center">
-                <img [src]="payuser?.imgurl" />
-              </ion-thumbnail>
-              <ion-label>
-                <ion-text> {{payuser?.fullName}} </ion-text>
-                <p>
-                  <ion-text>{{payuser?.date | date: "MMM d, y"}} </ion-text>
-                </p>
-              </ion-label>
-              <ion-text>
-                {{payuser?.price >= 0 ? 'FCFA ' + payuser?.price: '-FCFA ' + (
-                payuser?.price * (-1))}}
-              </ion-text>
-            </ion-item>
+              <ion-item lines="full" detail>
+                <ion-thumbnail slot="start" class="ion-text-center">
+                  <img [src]="payuser?.imgurl" />
+                </ion-thumbnail>
+                <ion-label>
+                  <ion-text> {{payuser?.fullName}} </ion-text>
+                  <p>
+                    <ion-text
+                      >{{payuser?.newDate | date: "MMM d, y"}}
+                    </ion-text>
+                  </p>
+                </ion-label>
+                <ion-text>
+                  {{payuser?.price >= 0 ? 'FCFA ' + payuser?.price: '-FCFA ' + (
+                  payuser?.price * (-1))}}
+                </ion-text>
+              </ion-item>
+
+              <ion-item-options slot="end">
+                <ion-item-option
+                  color="danger"
+                  (click)="onDeletePay(payuser.id, slidingPay)"
+                >
+                  <ion-icon name="trash" slot="icon-only"></ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
           </ion-item-group>
         </ion-list>
       </ion-col>
     </ion-row>
+    <!-- test app -->
+    <!-- <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2">
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Montant</ion-label>
+            <ion-input
+              type="number"
+              [(ngModel)]="montantNouvelleTransaction"
+              placeholder="Entrez le montant"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Description (optionnel)</ion-label>
+            <ion-input
+              type="text"
+              [(ngModel)]="descriptionNouvelleTransaction"
+              placeholder="Ex: Achat de crédit"
+            ></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row> -->
+    <!-- <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2">
+        <ion-item-divider class="ion-margin-top">
+          <ion-label>Historique des Transactions</ion-label>
+        </ion-item-divider>
+
+        <div
+          *ngIf="transactions.length === 0"
+          class="ion-text-center ion-padding-top"
+        >
+          <ion-text color="medium">
+            <p>Aucune transaction pour le moment.</p>
+          </ion-text>
+        </div>
+
+        <ion-list *ngIf="gettransactions.length > 0">
+          <ion-item
+            *ngFor="let tx of gettransactions.slice().reverse()"
+            [ngClass]="{'depot-item': tx.type === 'depot', 'retrait-item': tx.type === 'retrait'}"
+          >
+            <ion-label>
+              <h2>
+                {{ tx.type | uppercase }}: {{ tx.montant |
+                currency:'CFA':'symbol':'1.0-0' }}
+              </h2>
+              <p>{{ tx.date | date:'dd/MM/yyyy HH:mm' }}</p>
+              <p *ngIf="tx.description">{{ tx.description }}</p>
+            </ion-label>
+            <ion-icon
+              [name]="tx.type === 'depot' ? 'arrow-up-circle' : 'arrow-down-circle'"
+              [color]="tx.type === 'depot' ? 'success' : 'danger'"
+              slot="end"
+            ></ion-icon>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row> -->
   </ion-grid>
 </ion-content>
 

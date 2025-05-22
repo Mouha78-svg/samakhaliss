@@ -1,0 +1,78 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear">
+      <ion-back-button
+        [defaultHref]="['/','home','tabs','payfacture']"
+      ></ion-back-button>
+    </ion-button>
+    <ion-title>campusen</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center">
+  <form (ngSubmit)="onValidedSubmit()" #f="ngForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <!-- <ion-label position="floating">Montant</ion-label> -->
+            <ion-input
+              type="text"
+              [(ngModel)]="typeDepot"
+              placeholder="Entrez le description"
+              name="depot"
+              required
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <!-- <ion-label position="floating">Montant</ion-label> -->
+            <ion-input
+              type="number"
+              ngModel
+              placeholder="Entrez le téléphone"
+              name="tel"
+              required
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <!-- <ion-label position="floating">Montant</ion-label> -->
+            <ion-input
+              type="number"
+              ngModel
+              placeholder="Entrez le montant"
+              name="amount"
+              required
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <!-- <ion-label position="floating">Montant</ion-label> -->
+            <ion-input
+              type="text"
+              [(ngModel)]="currentDate"
+              placeholder="date transaction"
+              name="newdate"
+              required
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="3" offset-sm="3">
+          <ion-row>
+            <ion-col>
+              <ion-button
+                aria-hidden="false"
+                (click)="onValidatedDepot()"
+                expand="block"
+                [disabled]="!this.form.valid"
+              >
+                <ion-icon slot="start" name="add-circle"></ion-icon>
+                valider
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

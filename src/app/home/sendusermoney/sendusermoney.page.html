@@ -20,7 +20,9 @@
               placeholder="NOM"
               autocomplete
               autocorrect
+              ngModel
               formControlName="fullName"
+              required
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -33,9 +35,9 @@
               type="tel"
               labelPlacement="floating"
               placeholder="numero"
+              formControlName="tel"
               ngModel
               required
-              formControlName="tel"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -53,22 +55,23 @@
               type="number"
               labelPlacement="floating"
               placeholder="Somme"
-              ngModel
-              required
               formControlName="price"
+              required
             ></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
       <ion-row class="ion-item-display-none">
         <ion-col size-sm="6" offset-sm="3">
-          <ion-item>
+          <ion-item class="noneprice">
             <ion-label>
-              <ion-datetime
-                min="2019-01-01"
-                max="2025-12-31"
-                formControlName="date"
-              />
+              <ion-input
+                type="text"
+                name="currentDate"
+                formControlName="newDate"
+                [ngModel]="currentDate"
+                required
+              ></ion-input>
             </ion-label>
           </ion-item>
         </ion-col>
@@ -79,7 +82,6 @@
             color="primary"
             expand="block"
             (click)="onCreatePayment()"
-            [disabled]="!form.valid || !dateNow()"
           >
             Valider</ion-button
           >

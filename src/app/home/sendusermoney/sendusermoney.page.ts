@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { HomeService } from '../home.service';
 import { Router } from '@angular/router';
 @Component({
@@ -10,19 +10,20 @@ import { Router } from '@angular/router';
 })
 export class SendusermoneyPage implements OnInit {
   currentDate;
-  form!: FormGroup;
+  form: FormGroup;
+  // @ViewChild('f', { static: true }) form: NgForm;
 
   constructor(private homeservice: HomeService, private router: Router) {}
-  // this.currentDate = new Date().toISOString();
 
-  dateNow() {
-    const newDate = new Date(this.form.value['date']);
-    // console.log(newDate);
+  // dateNow() {
+  //   const newDate = new Date(this.form.value['date']);
+  //   // console.log(newDate);
 
-    return newDate;
-  }
+  //   return newDate;
+  // }
 
   ngOnInit() {
+    this.currentDate = new Date().toISOString();
     this.form = new FormGroup({
       fullName: new FormControl(null, {
         updateOn: 'blur',
@@ -36,25 +37,35 @@ export class SendusermoneyPage implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required, Validators.min(1)],
       }),
-      date: new FormControl(null, {
+      newDate: new FormControl(null, {
         updateOn: 'blur',
         validators: [Validators.required],
       }),
     });
   }
 
+  onSendPAY() {}
+
   onCreatePayment() {
     if (!this.form.valid) {
       return;
     }
-    this.homeservice.addPay(
-      this.form.value.fullName,
-      this.form.value.tel,
-      +this.form.value.price,
-      new Date(this.form.value.date)
+
+    this.homeservice.addPayement(
+      this.form.value['fullName'],
+      this.form.value['tel'],
+      +this.form.value['price'],
+      new Date(this.form.value.newDate)
     );
     this.form.reset();
     this.router.navigate(['/home/tabs/homeclient']);
     console.log(this.form);
+    // console.log(
+    //   'payer',
+    //   this.form.value['fullName'],
+    //   this.form.value['tel'],
+    //   +this.form.value['price'],
+    //   new Date(this.form.value.newDate)
+    // );
   }
 }
