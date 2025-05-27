@@ -62,7 +62,7 @@ export class DepotPage implements OnInit {
     //   this.form.value['amount']
     // );
 
-    this.homeservice.addPayement(
+    this.homeservice.addDepot(
       this.form.value['depot'],
       this.form.value['tel'],
       +this.form.value['amount'],

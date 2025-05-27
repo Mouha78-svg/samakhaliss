@@ -68,6 +68,49 @@ export class HomeService {
   gettransactions() {
     return this.transactions;
   }
+
+  private calculateFraisSurRetait(montantDepotBrut: number): number {
+    if (montantDepotBrut <= 0) return 0; // Pas de frais pour montant nul ou négatif (déjà géré par le constructeur de Base)
+
+    // Barème de frais (Exemple)
+    if (montantDepotBrut <= 10000) {
+      // Jusqu'à 10 000 CFA
+      return -100; // Frais fixes de 100 CFA
+    } else if (montantDepotBrut <= 50000) {
+      // De 10 001 à 50 000 CFA
+      return -250; // Frais fixes de 250 CFA
+    } else if (montantDepotBrut <= 1000) {
+      return -10;
+    } else if (montantDepotBrut <= 100000) {
+      // De 50 001 à 100 000 CFA
+      return -500; // Frais fixes de 500 CFA
+    } else {
+      // Au-delà de 100 000 CFA
+      return Math.round(montantDepotBrut * 0.01); // 1% du montant, arrondi
+    }
+    // Vous pouvez ajuster ce barème selon vos besoins.
+  }
+
+  private calculateFraisSurDepot(montantDepotBrut: number): number {
+    if (montantDepotBrut <= 0) return 0; // Pas de frais pour montant nul ou négatif (déjà géré par le constructeur de Base)
+
+    // Barème de frais (Exemple)
+    if (montantDepotBrut <= 10000) {
+      // Jusqu'à 10 000 CFA
+      return 100; // Frais fixes de 100 CFA
+    } else if (montantDepotBrut <= 50000) {
+      // De 10 001 à 50 000 CFA
+      return 250; // Frais fixes de 250 CFA
+    } else if (montantDepotBrut <= 100000) {
+      // De 50 001 à 100 000 CFA
+      return 500; // Frais fixes de 500 CFA
+    } else {
+      // Au-delà de 100 000 CFA
+      return Math.round(montantDepotBrut * 0.01); // 1% du montant, arrondi
+    }
+    // Vous pouvez ajuster ce barème selon vos besoins.
+  }
+
   async effectuerDepot(montant: number, description?: string): Promise<void> {
     if (!montant || montant <= 0) {
       this.afficherAlerte(
@@ -192,7 +235,7 @@ export class HomeService {
     return { ...this._homepayments.find((p) => p.id === id) };
   }
 
-  addPayement(fullName: string, tel: number, price: number, newDate: Date) {
+  addDepot(fullName: string, tel: number, price: number, newDate: Date) {
     const newPay = new Home(
       Math.random().toString(),
       fullName,
@@ -212,6 +255,53 @@ export class HomeService {
       this._homepayments.push(newPay);
       this.afficherToast(`Opération de ${price} CFA effectué.`);
       this.homepayments[0].soldTotal.push(price);
+    }
+  }
+  addretraitR(fullName: string, tel: number, price: number, newDate: Date) {
+    const newPay = new Home(
+      Math.random().toString(),
+      fullName,
+      tel,
+      price,
+      newDate,
+      'assets/images/sk.jpeg',
+      this.authservice.userId,
+      this.homepayments[0].soldTotal
+    );
+    if (!price || price <= 0) {
+      this.afficherAlerte(
+        'Erreur Retrait',
+        'Le montant du retrait doit être positif.'
+      );
+    } else {
+      this._homepayments.push(newPay);
+      this.afficherToast(`Opération de ${price} CFA effectué.`);
+      this.homepayments[0].soldTotal.push(-price);
+    }
+  }
+
+  addPayement(fullName: string, tel: number, price: number, newDate: Date) {
+    const newPay = new Home(
+      Math.random().toString(),
+      fullName,
+      tel,
+      price,
+      newDate,
+      'assets/images/sk.jpeg',
+      this.authservice.userId,
+      this.homepayments[0].soldTotal
+    );
+    if (!price || price <= 0) {
+      this.afficherAlerte(
+        'Erreur Retrait',
+        'Le montant du retrait doit être positif.'
+      );
+    } else {
+      this._homepayments.push(newPay);
+      this.afficherToast(`Opération de ${price} CFA effectué.`);
+      this.homepayments[0].soldTotal.push(
+        price + this.calculateFraisSurDepot(price)
+      );
     }
   }
   addRetrait(fullName: string, tel: number, price: number, newDate: Date) {
@@ -241,7 +331,10 @@ export class HomeService {
       );
     } else {
       this.afficherToast(`Opération de ${price} CFA effectué.`);
-      this.homepayments[0].soldTotal.push(-price);
+      this.homepayments[0].soldTotal.push(
+        -price + this.calculateFraisSurRetait(price)
+      );
+      // this.homepayments[0].soldTotal.push(-price);
       this._homepayments.push(newPay);
     }
   }

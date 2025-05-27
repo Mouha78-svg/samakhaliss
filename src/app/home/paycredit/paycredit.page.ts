@@ -30,7 +30,7 @@ export class PaycreditPage implements OnInit {
       return;
     }
 
-    this.homeservice.addRetrait(
+    this.homeservice.addretraitR(
       this.form.value['depot'],
       this.form.value['tel'],
       +this.form.value['amount'],
