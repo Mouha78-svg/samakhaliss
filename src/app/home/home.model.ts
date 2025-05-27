@@ -6,6 +6,7 @@ export class Home {
     public price: number,
     public newDate: Date,
     public imgurl: string,
-    public userId: string
+    public userId: string,
+    public soldTotal: number[]
   ) {}
 }

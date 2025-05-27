@@ -37,16 +37,18 @@ export class HomeService {
       5000,
       new Date('2025-03-05'),
       'assets/images/sk.jpeg',
-      'abc'
+      'abc',
+      [5000, 3000]
     ),
     new Home(
-      'p2',
+      'p1',
       'ourmar kane',
       221780351734,
       3000,
       new Date('2025-04-02'),
       'assets/images/sk.jpeg',
-      'abc'
+      'abc',
+      []
     ),
   ];
   getSoldePricipal() {
@@ -193,8 +195,24 @@ export class HomeService {
       price,
       newDate,
       'assets/images/sk.jpeg',
-      this.authservice.userId
+      this.authservice.userId,
+      []
     );
     this._homepayments.push(newPay);
+    this.afficherToast(`Opération de ${price} CFA effectué.`);
+    if (!price || price <= 0) {
+      this.afficherAlerte(
+        'Erreur Retrait',
+        'Le montant du retrait doit être positif.'
+      );
+      return;
+    }
+    // if (price >) {
+    //   this.afficherAlerte(
+    //     'Solde Insuffisant',
+    //     'Vous ne disposez pas des fonds nécessaires pour effectuer ce retrait.'
+    //   );
+    //   return;
+    // }
   }
 }

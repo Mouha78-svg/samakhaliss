@@ -62,6 +62,9 @@
                 aria-hidden="false"
                 (click)="onValidatedDepot()"
                 expand="block"
+                [disabled]="!this.form.valid"
+                data-bs-dismiss="modal"
+                aria-label="Close"
               >
                 <ion-icon slot="start" name="add-circle"></ion-icon>
                 valider

@@ -51,6 +51,10 @@ export class HomeclientPage implements OnInit {
 
   showbalance() {}
 
+  totalSoldClient() {
+    return this.loadHomePayments[0].soldTotal.reduce((x, y) => x + y, 0);
+  }
+
   openMenu() {
     this.menuCtrl.toggle();
   }

@@ -3,6 +3,7 @@ import { HomeService } from '../home.service';
 import { AlertController, ToastController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Home } from '../home.model';
 
 interface Transaction {
   type: 'depot' | 'retrait';
@@ -32,8 +33,11 @@ export class DepotPage implements OnInit {
 
   @ViewChild('f', { static: true }) form: NgForm;
 
+  loadedPrice: Home[];
+
   currentDate;
   typeDepot;
+  totalprice: number;
 
   constructor(
     private transactionService: HomeService,
@@ -44,6 +48,7 @@ export class DepotPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loadedPrice = this.homeservice.homepayments;
     this.currentDate = new Date().toISOString();
     this.typeDepot = 'Dépot';
   }
@@ -52,6 +57,10 @@ export class DepotPage implements OnInit {
     if (!this.form.valid) {
       return;
     }
+
+    //  this.totalprice = +this.loadedPrice[0].soldTotal.push(
+    //   this.form.value['amount']
+    // );
 
     this.homeservice.addPayement(
       this.form.value['depot'],

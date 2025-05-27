@@ -36,7 +36,7 @@
       </ion-card-header>
       <ion-card-content>
         <h1 class="ion-text-center" [ngClass]="{'positive-balance': 0}">
-          {{ soldePrincipal | currency:'CFA':'symbol':'1.0-0' }}
+          {{ totalSoldClient() | currency:'CFA':'symbol':'1.0-0' }}
         </h1>
       </ion-card-content>
     </ion-card>
