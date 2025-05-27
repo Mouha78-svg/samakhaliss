@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class SendusermoneyPage implements OnInit {
+  @ViewChild('f', { static: true }) form: NgForm;
+
   currentDate;
-  form: FormGroup;
-  // @ViewChild('f', { static: true }) form: NgForm;
+  typeDepot;
 
   constructor(private homeservice: HomeService, private router: Router) {}
 
@@ -24,48 +25,77 @@ export class SendusermoneyPage implements OnInit {
 
   ngOnInit() {
     this.currentDate = new Date().toISOString();
-    this.form = new FormGroup({
-      fullName: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required],
-      }),
-      tel: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required, Validators.maxLength(13)],
-      }),
-      price: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required, Validators.min(1)],
-      }),
-      newDate: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required],
-      }),
-    });
+    this.typeDepot = '';
+    // this.currentDate = new Date().toISOString();
+    // this.form = new FormGroup({
+    //   fullName: new FormControl(null, {
+    //     updateOn: 'blur',
+    //     validators: [Validators.required],
+    //   }),
+    //   tel: new FormControl(null, {
+    //     updateOn: 'blur',
+    //     validators: [Validators.required, Validators.maxLength(13)],
+    //   }),
+    //   price: new FormControl(null, {
+    //     updateOn: 'blur',
+    //     validators: [Validators.required, Validators.min(1)],
+    //   }),
+    //   newDate: new FormControl(null, {
+    //     updateOn: 'blur',
+    //     validators: [Validators.required],
+    //   }),
+    // });
   }
 
   onSendPAY() {}
 
-  onCreatePayment() {
+  onValidedSubmit() {
+    if (!this.form.valid) {
+      return;
+    }
+  }
+  onValidatedDepot() {
     if (!this.form.valid) {
       return;
     }
 
-    this.homeservice.addPayement(
-      this.form.value['fullName'],
+    this.homeservice.addRetrait(
+      this.form.value['depot'],
       this.form.value['tel'],
-      +this.form.value['price'],
-      new Date(this.form.value.newDate)
+      +this.form.value['amount'],
+      new Date(this.form.value['newdate'])
     );
     this.form.reset();
     this.router.navigate(['/home/tabs/homeclient']);
-    console.log(this.form);
-    // console.log(
-    //   'payer',
-    //   this.form.value['fullName'],
-    //   this.form.value['tel'],
-    //   +this.form.value['price'],
-    //   new Date(this.form.value.newDate)
-    // );
+
+    console.log(
+      this.form.value['depot'],
+      this.form.value['tel'],
+      this.form.value['amount'],
+      this.form.value['newdate']
+    );
   }
+
+  // onCreatePayment() {
+  //   if (!this.form.valid) {
+  //     return;
+  //   }
+
+  //   this.homeservice.addRetrait(
+  //     this.form.value['fullName'],
+  //     this.form.value['tel'],
+  //     +this.form.value['price'],
+  //     new Date(this.form.value.newDate)
+  //   );
+  //   this.form.reset();
+  //   this.router.navigate(['/home/tabs/homeclient']);
+  //   console.log(this.form);
+  //   // console.log(
+  //   //   'payer',
+  //   //   this.form.value['fullName'],
+  //   //   this.form.value['tel'],
+  //   //   +this.form.value['price'],
+  //   //   new Date(this.form.value.newDate)
+  //   // );
+  // }
 }
