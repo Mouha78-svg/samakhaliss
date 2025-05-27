@@ -31,7 +31,7 @@ export class CampusenPage implements OnInit {
       return;
     }
 
-    this.homeservice.addPayement(
+    this.homeservice.addRetrait(
       this.form.value['depot'],
       this.form.value['tel'],
       +this.form.value['amount'],

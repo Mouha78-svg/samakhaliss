@@ -10,8 +10,6 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class RetraitPage implements OnInit {
-  selectedMontantNT;
-  selectedDescNT;
   @ViewChild('f', { static: true }) form: NgForm;
 
   currentDate;
@@ -23,7 +21,7 @@ export class RetraitPage implements OnInit {
       return;
     }
 
-    this.homeservice.addPayement(
+    this.homeservice.addRetrait(
       this.form.value['depot'],
       this.form.value['tel'],
       +this.form.value['amount'],

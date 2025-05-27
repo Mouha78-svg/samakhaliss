@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Home } from './home.model';
 import { AuthService } from '../auth/auth.service';
-import { AlertController, ToastController } from '@ionic/angular';
+import {
+  AlertController,
+  LoadingController,
+  ToastController,
+} from '@ionic/angular';
 
 interface Transaction {
   type: 'depot' | 'retrait';
@@ -27,7 +31,8 @@ export class HomeService {
   constructor(
     private authservice: AuthService,
     private alertCtrl: AlertController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController
   ) {}
   private _homepayments: Home[] = [
     new Home(
@@ -196,23 +201,48 @@ export class HomeService {
       newDate,
       'assets/images/sk.jpeg',
       this.authservice.userId,
-      []
+      this.homepayments[0].soldTotal
     );
-    this._homepayments.push(newPay);
-    this.afficherToast(`Opération de ${price} CFA effectué.`);
     if (!price || price <= 0) {
       this.afficherAlerte(
         'Erreur Retrait',
         'Le montant du retrait doit être positif.'
       );
-      return;
+    } else {
+      this._homepayments.push(newPay);
+      this.afficherToast(`Opération de ${price} CFA effectué.`);
+      this.homepayments[0].soldTotal.push(price);
     }
-    // if (price >) {
-    //   this.afficherAlerte(
-    //     'Solde Insuffisant',
-    //     'Vous ne disposez pas des fonds nécessaires pour effectuer ce retrait.'
-    //   );
-    //   return;
-    // }
+  }
+  addRetrait(fullName: string, tel: number, price: number, newDate: Date) {
+    const soldTotal = +this.homepayments[0].soldTotal.reduce(
+      (x, y) => x + y,
+      0
+    );
+    const newPay = new Home(
+      Math.random().toString(),
+      fullName,
+      tel,
+      price,
+      newDate,
+      'assets/images/sk.jpeg',
+      this.authservice.userId,
+      this.homepayments[0].soldTotal
+    );
+    if (!price || price <= 0) {
+      this.afficherAlerte(
+        'Erreur Retrait',
+        'Le montant du retrait doit être positif.'
+      );
+    } else if (price > soldTotal) {
+      this.afficherAlerte(
+        'Solde Insuffisant',
+        'Vous ne disposez pas des fonds nécessaires pour effectuer ce retrait.'
+      );
+    } else {
+      this.afficherToast(`Opération de ${price} CFA effectué.`);
+      this.homepayments[0].soldTotal.push(-price);
+      this._homepayments.push(newPay);
+    }
   }
 }
