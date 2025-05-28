@@ -56,6 +56,13 @@ export class HomeService {
       []
     ),
   ];
+
+  deleteTransactionDetail(transactionID: string) {
+    this._homepayments = this._homepayments.filter((detailId) => {
+      return detailId.id !== transactionID;
+    });
+  }
+
   getSoldePricipal() {
     return this.soldePrincipal;
   }
@@ -258,6 +265,10 @@ export class HomeService {
     }
   }
   addretraitR(fullName: string, tel: number, price: number, newDate: Date) {
+    const soldTotal = +this.homepayments[0].soldTotal.reduce(
+      (x, y) => x + y,
+      0
+    );
     const newPay = new Home(
       Math.random().toString(),
       fullName,
@@ -272,6 +283,11 @@ export class HomeService {
       this.afficherAlerte(
         'Erreur Retrait',
         'Le montant du retrait doit être positif.'
+      );
+    } else if (price > soldTotal) {
+      this.afficherAlerte(
+        'Solde Insuffisant',
+        'Vous ne disposez pas des fonds nécessaires pour effectuer ce retrait.'
       );
     } else {
       this._homepayments.push(newPay);

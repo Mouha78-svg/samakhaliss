@@ -45,7 +45,7 @@
                 >{{detailTransaction.id}}{{detailTransaction.newDate}}</ion-badge
               >
             </ion-item>
-            <ion-item lines="none">
+            <ion-item>
               <ion-label>Partenaire SamaKhaliss </ion-label>
               <ion-badge color="">
                 <ion-thumbnail>
@@ -54,6 +54,16 @@
                     alt="Votre partenaire SamaKhaliss"
                   />
                 </ion-thumbnail>
+              </ion-badge>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label>Supprimer</ion-label>
+              <ion-badge color="danger ion-text-center">
+                <ion-buttons>
+                  <ion-button (click)="ondeleteDetailTran()">
+                    <ion-icon name="trash" slot=""></ion-icon>
+                  </ion-button>
+                </ion-buttons>
               </ion-badge>
             </ion-item>
           </ion-list>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Home } from '../../home.model';
-import { NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { HomeService } from '../../home.service';
 
 @Component({
@@ -11,11 +11,13 @@ import { HomeService } from '../../home.service';
   standalone: false,
 })
 export class HomeDetailPage implements OnInit {
-  detailTransaction: Home;
+  detailTransaction: Home | any;
   constructor(
     private route: ActivatedRoute,
     private navCtrl: NavController,
-    private homeservice: HomeService
+    private homeservice: HomeService,
+    private alertCtrl: AlertController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -28,5 +30,29 @@ export class HomeDetailPage implements OnInit {
         paramMap.get('homeId')
       );
     });
+  }
+
+  ondeleteDetailTran() {
+    this.alertCtrl
+      .create({
+        header: 'Voulez vous le supprimer',
+        message: 'Vraiment vous le voulait',
+        buttons: [
+          {
+            text: 'cancel',
+            role: 'cancel',
+          },
+          {
+            text: 'Supprimer',
+            handler: () => {
+              this.homeservice.deleteTransactionDetail(
+                this.detailTransaction.id
+              );
+              this.router.navigateByUrl('/home/tabs/homeclient');
+            },
+          },
+        ],
+      })
+      .then((elDiss) => elDiss.present());
   }
 }
